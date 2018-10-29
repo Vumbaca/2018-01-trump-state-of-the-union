@@ -1,0 +1,25 @@
+---
+title: "States of the Union"
+author: "Max Vumbaca"
+date: "October 29, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+sou <- read_csv("data/sou.csv")
+
+sentiments <- sou %>%
+  unnest_tokens(word, text) %>%
+  filter(str_detect(word, "[a-z]")) %>%
+  # match to lexicon
+  inner_join(get_sentiments("bing"), by = "word")
+```
+
